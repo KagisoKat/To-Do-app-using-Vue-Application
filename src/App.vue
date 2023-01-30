@@ -1,3 +1,7 @@
+<!-- App is able to edit,delete
+,sort list,
+uses localstorage -->
+
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
 const todos = ref([])
@@ -66,7 +70,7 @@ onMounted(() => {
 							value="business"
 							v-model="input_category" />
 						<span class="bubble business"></span>
-						<div>Business</div>
+						<div>Work related</div>
 					</label>
 
 					<label>
