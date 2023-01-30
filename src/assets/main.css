@@ -41,6 +41,11 @@ main {
       box-sizing: border-box;
       font-family: 'montserrat', sans-serif;
   }
+
+  h1{
+    font-weight: bold;
+    font-size: 80px;
+  }
   
   input:not([type="radio"]):not([type="checkbox"]), button {
       appearance: none;
