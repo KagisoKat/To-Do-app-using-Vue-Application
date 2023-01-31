@@ -4,39 +4,39 @@ uses localstorage -->
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-const todos = ref([])
+const tasks = ref([])
 const name = ref('')
-const input_content = ref('')
+const content = ref('')
 const input_category = ref(null)
-const todos_asc = computed(() => todos.value.sort((a,b) =>{
+const tasks_asc = computed(() => tasks.value.sort((a,b) =>{
 	return a.createdAt - b.createdAt
 }))
 watch(name, (newVal) => {
 	localStorage.setItem('name', newVal)
 })
-watch(todos, (newVal) => {
-	localStorage.setItem('todos', JSON.stringify(newVal))
+watch(tasks, (newVal) => {
+	localStorage.setItem('tasks', JSON.stringify(newVal))
 }, {
 	deep: true
 })
 const addTodo = () => {
-	if (input_content.value.trim() === '' || input_category.value === null) {
+	if (content.value.trim() === '' || input_category.value === null) {
 		return
 	}
-	todos.value.push({
-		content: input_content.value,
+	tasks.value.push({
+		content: content.value,
 		category: input_category.value,
 		done: false,
 		editable: false,
 		createdAt: new Date().getTime()
 	})
 }
-const removeTodo = (todo) => {
-	todos.value = todos.value.filter((t) => t !== todo)
+const removeTodo = (task) => {
+	tasks.value = tasks.value.filter((t) => t !== task)
 }
 onMounted(() => {
 	name.value = localStorage.getItem('name') || ''
-	todos.value = JSON.parse(localStorage.getItem('todos')) || []
+	tasks.value = JSON.parse(localStorage.getItem('tasks')) || []
 })
 </script>
 
@@ -56,10 +56,10 @@ onMounted(() => {
 					type="text" 
 					name="content" 
 					id="content" 
-					placeholder="e.g. make a video"
-					v-model="input_content" />
+					placeholder="e.g. attend zoom meeting"
+					v-model="content" />
 				
-				<h4>Pick a category</h4>
+				<h4>Select a category</h4>
 				<div class="options">
 
 					<label>
@@ -94,22 +94,22 @@ onMounted(() => {
 			<h3>TODO LIST</h3>
 			<div class="list" id="todo-list">
 
-				<div v-for="todo in todos_asc" :class="`todo-item ${todo.done && 'done'}`">
+				<div v-for="task in tasks_asc" :class="`todo-item ${task.done && 'done'}`">
 					<label>
-						<input type="checkbox" v-model="todo.done" />
+						<input type="checkbox" v-model="task.done" />
 						<span :class="`bubble ${
-							todo.category == 'business' 
+							task.category == 'business' 
 								? 'business' 
 								: 'personal'
 						}`"></span>
 					</label>
 
 					<div class="todo-content">
-						<input type="text" v-model="todo.content" />
+						<input type="text" v-model="task.content" />
 					</div>
 
 					<div class="actions">
-						<button class="delete" @click="removeTodo(todo)">Delete</button>
+						<button class="delete" @click="removeTodo(task)">Delete</button>
 					</div>
 				</div>
 
